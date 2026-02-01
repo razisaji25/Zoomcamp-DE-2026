@@ -22,3 +22,16 @@ ls -lh /tmp/3dL5LwyCzlAjlzpMEorGnr/14957790718890805220.tmp
 2026-02-01 09:23:03.048Captured 0 output file(s).
 2026-02-01 09:23:03.048Command succeed with exit code 0
 2026-02-01 09:23:03.048-rw------- 1 root root 129M Feb  1 02:23 /tmp/3dL5LwyCzlAjlzpMEorGnr/14957790718890805220.tmp
+
+for Question 2:
+What is the rendered value of the variable file when the inputs taxi is set to green, year is set to 2020, 
+and month is set to 04 during execution?
+following th code 
+variables:
+  file: "{{inputs.taxi}}_tripdata_{{inputs.year}}-{{inputs.month}}.csv" # this one
+  staging_table: "public.{{inputs.taxi}}_tripdata_staging"
+  table: "public.{{inputs.taxi}}_tripdata"
+  data: "{{outputs.extract.outputFiles[inputs.taxi ~ '_tripdata_' ~ inputs.year ~ '-' ~ inputs.month ~ '.csv']}}"
+
+answer is "green_tripdata_2020-04.csv"
+
