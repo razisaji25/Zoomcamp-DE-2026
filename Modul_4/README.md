@@ -172,7 +172,8 @@ and then running
 
 Create a staging model for the **For-Hire Vehicle (FHV)** trip data for 2019.
 
-1. Load the [FHV trip data for 2019](https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/fhv) into your data warehouse
+1. Ingest the data from the following link into your data warehouse:  
+   `Modul_4/taxi_rides_ny/Ingest_data_fhv_2019`
 2. Create a staging model `stg_fhv_tripdata` with these requirements:
    - Filter out records where `dispatching_base_num IS NULL`
    - Rename fields to match your project's naming conventions (e.g., `PUlocationID` → `pickup_location_id`)
@@ -238,4 +239,5 @@ and then running
 ```sql
 select count(*)  from prod.stg_fhv_tripdata
 ```
+
 
