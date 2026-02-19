@@ -1,0 +1,83 @@
+id: green_taxi_elt
+namespace: zoomcamp.de.nyc
+
+description: >
+  Ingest Green Taxi data from GitHub Releases into DuckDB
+  and load to PostgreSQL in yearly chunks
+
+tasks:
+  - id: ingest_and_transfer
+    type: io.kestra.plugin.scripts.python.Script
+
+    docker:
+      image: python:3.11-slim
+
+    beforeCommands:
+      - pip install --no-cache-dir duckdb requests psycopg2-binary
+
+    script: |
+      import requests
+      import duckdb
+      from pathlib import Path
+
+      DB_PATH = "/app/storage/duckdb/nyc_green_taxi.duckdb"
+      Path("/app/storage/duckdb").mkdir(parents=True, exist_ok=True)
+
+      OWNER = "DataTalksClub"
+      REPO = "nyc-tlc-data"
+      releases_url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases"
+
+      YEARS = [2019, 2020, 2021]
+
+      con = duckdb.connect(DB_PATH)
+      con.execute("INSTALL postgres;")
+      con.execute("LOAD postgres;")
+
+      con.execute("""
+        ATTACH 'postgresql://<user>:<password>@host.docker.internal:<port>/ny_taxi' --jika postgree dan kestra terpisah docker 
+        AS pg (TYPE POSTGRES);
+      """)
+
+      releases = requests.get(releases_url, timeout=30).json()
+
+      first_year = True
+      for year in YEARS:
+          urls = [
+              a["browser_download_url"]
+              for r in releases
+              for a in r.get("assets", [])
+              if a["name"].startswith(f"green_tripdata_{year}")
+              and a["name"].endswith(".csv.gz")
+          ]
+
+          if not urls:
+              continue
+
+          con.execute("DROP TABLE IF EXISTS tmp_green_year")
+
+          union_sql = " UNION ALL ".join(
+              f"SELECT * FROM read_csv_auto('{u}', compression='gzip')"
+              for u in urls
+          )
+
+          con.execute(f"CREATE TABLE tmp_green_year AS {union_sql}")
+
+          if first_year:
+              con.execute("""
+                CREATE TABLE pg.green_taxi_2019_2021_v02
+                AS SELECT * FROM tmp_green_year
+              """)
+              first_year = False
+          else:
+              con.execute("""
+                INSERT INTO pg.green_taxi_2019_2021_v02
+                SELECT * FROM tmp_green_year
+              """)
+
+      print(
+          con.execute(
+              "SELECT COUNT(*) FROM pg.green_taxi_2019_2021_v02"
+          ).fetchone()[0]
+      )
+
+      con.close()

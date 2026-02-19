@@ -1,0 +1,37 @@
+for question 1:
+Within the execution for Yellow Taxi data for the year 2020 and month 12: what is the uncompressed file size 
+(i.e. the output file yellow_tripdata_2020-12.csv of the extract task)?
+
+i used this code for check size year 202o month 12
+  - id: check_file_size
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - |
+        echo "Checking file size for Q1"
+        ls -lh {{outputs.extract.outputFiles[render(vars.file)]}}
+
+and then output in log for this:
+2026-02-01 09:23:02.470Using task runner 'io.kestra.plugin.core.runner.Process'
+2026-02-01 09:23:02.946Starting command with pid 1657 [/bin/sh -c set -e
+echo "Checking file size for Q1"
+ls -lh /tmp/3dL5LwyCzlAjlzpMEorGnr/14957790718890805220.tmp
+]
+2026-02-01 09:23:02.947Checking file size for Q1
+2026-02-01 09:23:03.048Captured 0 output file(s).
+2026-02-01 09:23:03.048Command succeed with exit code 0
+2026-02-01 09:23:03.048-rw------- 1 root root 129M Feb  1 02:23 /tmp/3dL5LwyCzlAjlzpMEorGnr/14957790718890805220.tmp
+
+for Question 2:
+What is the rendered value of the variable file when the inputs taxi is set to green, year is set to 2020, 
+and month is set to 04 during execution?
+following th code 
+variables:
+  file: "{{inputs.taxi}}_tripdata_{{inputs.year}}-{{inputs.month}}.csv" # this one
+  staging_table: "public.{{inputs.taxi}}_tripdata_staging"
+  table: "public.{{inputs.taxi}}_tripdata"
+  data: "{{outputs.extract.outputFiles[inputs.taxi ~ '_tripdata_' ~ inputs.year ~ '-' ~ inputs.month ~ '.csv']}}"
+
+answer is "green_tripdata_2020-04.csv"
+

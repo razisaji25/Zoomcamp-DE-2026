@@ -1,0 +1,5 @@
+Modul_4/zoomcamp_DE/
+zoomcamp_DE/
+__pycache__/
+*.duckdb
+.dlt/
