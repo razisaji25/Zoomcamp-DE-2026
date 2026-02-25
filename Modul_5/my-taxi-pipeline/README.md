@@ -21,11 +21,11 @@ This is a learn-by-doing experience with AI assistance available through Bruin M
 - **Part 5**: Deploy DWH to DuckDB and run pipelines on Bruin Cloud
 
 ## Pipeline Skeleton
-
+```
 my-taxi-pipeline/
 ├── .bruin.yml                              # Environments + connections (local DuckDB, BigQuery, etc.)
 ├── README.md                               # Learning goals, workflow, best practices
-├── run-pipeline.ps1                        # Run trigger `bruin run ./pipeline/pipeline.yml` and solution of ingestr
+├── run-pipeline.ps1                        # Run trigger bruin run ./pipeline/pipeline.yml and solution of ingestr
 └── pipeline/
     ├── pipeline.yml                        # Pipeline name, schedule, variables
     └── assets/
