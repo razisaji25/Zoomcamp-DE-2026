@@ -2,23 +2,13 @@
 
 This hands-on tutorial guides you through building a **complete NYC Taxi data pipeline** from scratch using Bruin - a unified CLI tool for data ingestion, transformation, orchestration, and governance.
 
-Checkout our [Zoomcamp Project Prize](https://getbruin.com/zoomcamp-project) to learn more about how you can win a free Claude subscription service.
-
-Please reach out to us via our [Slack Community](https://join.slack.com/t/bruindatacommunity/shared_invite/zt-3oaskee9f-YbvwEEdMgQ1elmKzqmIHTg) to ask questions, share feedback, or report issues.
-
-Register for [Bruin Cloud](https://cloud.getbruin.com/register) to deploy your pipelines: registration is free (no credit card required) and includes complimentary credits to get started.
-
-### YouTube Video Tutorial Playlist
-- [Video Tutorials Playlist](https://www.youtube.com/playlist?list=PLnRr-L-cuxO4lUUdkXV5YPHT5ZEcEeXQD)
-- [Bruin Core Concepts Playlist](https://www.youtube.com/playlist?list=PLnRr-L-cuxO72ws5jYS8oyKMWs-AosgdP)
-
 ## Learning Goals
 
 You'll learn to build a production-ready ELT pipeline that:
 - **Ingests** real NYC taxi trip data from public APIs using Python
 - **Transforms** and cleans raw data with SQL, applying incremental strategies and deduplication
 - **Reports** aggregated analytics with built-in quality checks
-- **Deploys** to cloud infrastructure (BigQuery)
+- **Deploys** using Local DuckDB
 
 This is a learn-by-doing experience with AI assistance available through Bruin MCP. Follow the comprehensive step-by-step tutorial section below.
 
@@ -28,21 +18,14 @@ This is a learn-by-doing experience with AI assistance available through Bruin M
 - **Part 2**: Setting Up Your First Bruin Project - Install Bruin, initialize a project, and configure environments
 - **Part 3**: End-to-End NYC Taxi ELT Pipeline - Build ingestion, staging, and reporting layers with real data
 - **Part 4**: Data Engineering with AI Agent - Use Bruin MCP to build pipelines with AI assistance
-- **Part 5**: Deploy to Cloud - Deploy to BigQuery and run pipelines on Bruin Cloud
+- **Part 5**: Deploy DWH to DuckDB and run pipelines on Bruin Cloud
 
 ## Pipeline Skeleton
 
-The suggested structure separates ingestion, staging, and reporting, but you may structure your pipeline however you like.
-
-The required parts of a Bruin project are:
-- `.bruin.yml` in the root directory
-- `pipeline.yml` in the `pipeline/` directory (or in the root directory if you keep everything flat)
-- `assets/` folder next to `pipeline.yml` containing your Python, SQL, and YAML asset files
-
-```text
-zoomcamp/
+my-taxi-pipeline/
 ├── .bruin.yml                              # Environments + connections (local DuckDB, BigQuery, etc.)
 ├── README.md                               # Learning goals, workflow, best practices
+├── run-pipeline.ps1                        # Run trigger `bruin run ./pipeline/pipeline.yml` and solution of ingestr
 └── pipeline/
     ├── pipeline.yml                        # Pipeline name, schedule, variables
     └── assets/
