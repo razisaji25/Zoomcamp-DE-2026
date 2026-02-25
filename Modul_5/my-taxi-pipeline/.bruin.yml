@@ -1,0 +1,9 @@
+# Bruin project config: environments and connections.
+# Docs: https://getbruin.com/docs/bruin/secrets/bruinyml
+
+environments:
+  default:
+    connections:
+      duckdb:
+        - name: "duckdb-default"
+          path: "data/duckdb.db"

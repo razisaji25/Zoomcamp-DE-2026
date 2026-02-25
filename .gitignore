@@ -1,5 +1,26 @@
-Modul_4/zoomcamp_DE/
-zoomcamp_DE/
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+env/
+
+# Data & Database
+data/
 *.duckdb
+*.db
+*.parquet
+
+# DLT
 .dlt/
+
+# Logs
+logs/
+logs/*.log
+
+# OS
+.DS_Store
+Thumbs.db

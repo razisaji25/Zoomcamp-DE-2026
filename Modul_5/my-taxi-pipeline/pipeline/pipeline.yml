@@ -1,0 +1,58 @@
+# Zoomcamp template: pipeline.yml
+# Goal: help you learn Bruin pipeline configuration patterns. This file is intentionally *not* runnable until you complete the TODOs.
+#
+# Key docs:
+# - Pipeline files: https://getbruin.com/docs/bruin/getting-started/pipeline
+# - Variables (JSON Schema): https://getbruin.com/docs/bruin/getting-started/pipeline-variables
+# - Run command: https://getbruin.com/docs/bruin/commands/run
+
+# Pipeline name: shows up in logs + `BRUIN_PIPELINE` for Python assets.
+name: nyc-taxi
+
+run:
+  concurrency: 1
+
+schedule: daily
+start_date: "2022-01-01"
+
+default_connections:
+  duckdb: duckdb-default
+
+variables:
+  taxi_types:
+    type: array
+    items:
+      type: string
+    default: ["yellow", "green"]
+
+tasks:
+
+  - name: ingestion_payment_lookup
+    type: python
+    path: assets/ingestion/payment_lookup.py
+    materialization:
+      type: table
+
+  - name: ingestion_trips
+    type: python
+    path: assets/ingestion/trips.py
+    materialization:
+      type: table
+    depends_on:
+      - ingestion_payment_lookup
+
+  - name: staging_trips
+    type: sql
+    path: pipeline/staging/trips.sql
+    depends_on:
+      - ingestion_trips
+    materialization:
+      type: table
+
+  - name: trips_report
+    type: sql
+    path: pipeline/reports/trips_report.sql
+    depends_on:
+      - staging_trips
+    materialization:
+      type: table
