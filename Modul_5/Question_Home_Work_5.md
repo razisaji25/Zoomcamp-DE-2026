@@ -32,17 +32,23 @@ Following this default repo:
         assets/
 ```
 
-
 ---
 
 ### Question 2. Materialization Strategies
 
 You're building a pipeline that processes NYC taxi data organized by month based on `pickup_datetime`. Which incremental strategy is best for processing a specific interval period by deleting and inserting data for that time period?
 
-- `append` - always add new rows
-- `replace` - truncate and rebuild entirely
-- `time_interval` - incremental based on a time column
-- `view` - create a virtual table only
+- [ ] `append` - always add new rows
+- [ ] `replace` - truncate and rebuild entirely
+- [x] `time_interval` - incremental based on a time column
+- [ ] `view` - create a virtual table only
+
+### Answers 2.
+materialization strategies in Bruin
+1. Append used in case log data, event streams, data that never changes
+2. Replace used in case small data sets, full refresh logic, when correcness
+3. ### Time interval used in case monthly partitions, daily incremental loads, data based on a time columns
+4. View used in case Lightweight transformations, intermediate layers, when storage optimization is needed  
 
 ---
 
@@ -61,10 +67,14 @@ variables:
 
 How do you override this when running the pipeline to only process yellow taxis?
 
-- `bruin run --taxi-types yellow`
-- `bruin run --var taxi_types=yellow`
-- `bruin run --var 'taxi_types=["yellow"]'`
-- `bruin run --set taxi_types=["yellow"]`
+- [ ]`bruin run --taxi-types yellow`
+- [ ]`bruin run --var taxi_types=yellow`
+- [x] `bruin run --var 'taxi_types=["yellow"]'`
+- [ ]`bruin run --set taxi_types=["yellow"]`
+
+### Answers 3.
+
+Because array type -> must action as JSON array
 
 ---
 
@@ -72,10 +82,14 @@ How do you override this when running the pipeline to only process yellow taxis?
 
 You've modified the `ingestion/trips.py` asset and want to run it plus all downstream assets. Which command should you use?
 
-- `bruin run ingestion.trips --all`
-- `bruin run ingestion/trips.py --downstream`
-- `bruin run pipeline/trips.py --recursive`
-- `bruin run --select ingestion.trips+`
+- [ ] `bruin run ingestion.trips --all`
+- [x] `bruin run ingestion/trips.py --downstream`
+- [ ] `bruin run pipeline/trips.py --recursive`
+- [ ] `bruin run --select ingestion.trips+`
+
+### Answers 4.
+
+'+' that mean is run downstream
 
 ---
 
@@ -83,10 +97,10 @@ You've modified the `ingestion/trips.py` asset and want to run it plus all downs
 
 You want to ensure the `pickup_datetime` column in your trips table never has NULL values. Which quality check should you add to your asset definition?
 
-- `name: unique`
-- `name: not_null`
-- `name: positive`
-- `name: accepted_values, value: [not_null]`
+- [ ] `name: unique`
+- [X] `name: not_null`
+- [ ] `name: positive`
+- [ ] `name: accepted_values, value: [not_null]`
 
 ---
 
@@ -94,10 +108,10 @@ You want to ensure the `pickup_datetime` column in your trips table never has NU
 
 After building your pipeline, you want to visualize the dependency graph between assets. Which Bruin command should you use?
 
-- `bruin graph`
-- `bruin dependencies`
-- `bruin lineage`
-- `bruin show`
+- [X] `bruin graph`
+- [ ] `bruin dependencies`
+- [ ] `bruin lineage`
+- [ ] `bruin show`
 
 ---
 
@@ -105,58 +119,13 @@ After building your pipeline, you want to visualize the dependency graph between
 
 You're running a Bruin pipeline for the first time on a new DuckDB database. What flag should you use to ensure tables are created from scratch?
 
-- `--create`
-- `--init`
-- `--full-refresh`
-- `--truncate`
+- [ ] `--create`
+- [ ] `--init`
+- [X] `--full-refresh`
+- [ ] `--truncate`
 
 ---
 
-## Submitting the solutions
-
-- Form for submitting: <https://courses.datatalks.club/de-zoomcamp-2026/homework/hw5>
-
-=======
-
-## Learning in Public
-
-We encourage everyone to share what they learned. This is called "learning in public".
-
-Read more about the benefits [here](https://alexeyondata.substack.com/p/benefits-of-learning-in-public-and).
-
-### Example post for LinkedIn
-
-```
-🚀 Week 5 of Data Engineering Zoomcamp by @DataTalksClub complete!
-
-Just finished Module 5 - Data Platforms with Bruin. Learned how to:
-
-✅ Build end-to-end ELT pipelines with Bruin
-✅ Configure environments and connections
-✅ Use materialization strategies for incremental processing
-✅ Add data quality checks to ensure data integrity
-✅ Deploy pipelines from local to cloud (BigQuery)
-
-Modern data platforms in a single CLI tool - no vendor lock-in!
-
-Here's my homework solution: <LINK>
-
-Following along with this amazing free course - who else is learning data engineering?
-
-You can sign up here: https://github.com/DataTalksClub/data-engineering-zoomcamp/
-```
-
-### Example post for Twitter/X
-
-```
-📊 Module 5 of Data Engineering Zoomcamp done!
-
-- Data Platforms with Bruin
-- End-to-end ELT pipelines
-- Data quality & lineage
-- Deployment to BigQuery
-
-My solution: <LINK>
 
 Free course by @DataTalksClub: https://github.com/DataTalksClub/data-engineering-zoomcamp/
 ```
