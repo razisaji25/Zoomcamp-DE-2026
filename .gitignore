@@ -24,3 +24,5 @@ logs/*.log
 # OS
 .DS_Store
 Thumbs.db
+
+Modul_6/*.parquet
