@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: crashdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pipeline:
+    build: .
+    container_name: simple-pipeline
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+
+  dashboard:
+    build: .
+    container_name: streamlit-app
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    command: streamlit run app/dashboard.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+
+volumes:
+  postgres_data:

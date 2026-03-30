@@ -1,0 +1,7 @@
+pyspark
+duckdb
+pandas
+streamlit
+sqlalchemy
+psycopg2-binary
+matplotlib
