@@ -93,8 +93,8 @@ docker compose up -d --build
 ```
 
 Services:
-PostgreSQL → localhost:5433
-Streamlit → http://<YOUR-IP>:8501
+- PostgreSQL → localhost:5433
+- Streamlit → http://<YOUR-IP>:8501
 
 ### 3. Run Pipeline (manual test)
 
