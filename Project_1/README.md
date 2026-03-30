@@ -1,5 +1,39 @@
 # 🚗 NHTSA Crash Dashboard (End-to-End Data Pipeline)
 
+## ❗ Problem Statement
+
+Traffic accidents remain a major public safety concern, causing significant fatalities and economic losses each year. However, understanding the underlying patterns such as when crashes occur, what factors contribute to them, and how environmental conditions influence outcomes is often challenging due to fragmented and complex datasets.
+
+The NHTSA crash dataset contains rich information, but it is distributed across multiple tables (e.g., accident, vehicle, person) and multiple years, making it difficult to analyze directly.
+
+---
+
+## 🎯 Problem This Project Solves
+
+This project addresses the following key challenges:
+
+- **Data Fragmentation**  
+  Raw NHTSA data is spread across multiple relational tables and years, requiring integration before analysis.
+
+- **Lack of Scalable Processing**  
+  Large datasets cannot be efficiently processed using traditional tools without a structured pipeline.
+
+- **Limited Accessibility for Analysis**  
+  Without a proper data model and visualization layer, extracting insights is time-consuming and non-intuitive.
+
+---
+
+## 💡 Solution Approach
+
+This project provides an end-to-end data pipeline that:
+
+- Integrates multi-year, multi-table datasets into a unified structure  
+- Uses PySpark for scalable data transformation  
+- Stores processed data in PostgreSQL for efficient querying  
+- Delivers insights through an interactive Streamlit dashboard  
+
+As a result, users can easily explore crash patterns, identify risk factors, and support data-driven decision-making.
+
 ## 📌 Overview
 This project builds an **end-to-end data pipeline** to analyze traffic accident data from the **NHTSA (National Highway Traffic Safety Administration)**.
 
@@ -85,8 +119,11 @@ Project_1
 git clone https://github.com/razisaji25/Zoomcamp-DE-2026.git
 cd Project_1
 ```
+### 2. syncronize system repo 
+- add folder data -> [year] -> upload data
+- running with uv init
 
-### 2. Run Services (Docker)
+### 3. Run Services (Docker)
 
 ```bash
 docker compose up -d --build
@@ -96,13 +133,13 @@ Services:
 - PostgreSQL → localhost:5433
 - Streamlit → http://<YOUR-IP>:8501
 
-### 3. Run Pipeline (manual test)
+### 4. Run Pipeline (manual test)
 
 ```bash
 docker exec simple-pipeline bash run_pipeline.sh
 ```
 
-### 4. Run Pipeline (Automation Setting)
+### 5. Run Pipeline (Automation Setting)
 
 ```bash
 # Step 1
@@ -110,6 +147,10 @@ crontab -e
 # Step 2
 0 1 * * * docker exec simple-pipeline bash /app/run_pipeline.sh
 ```
+## 📊 Dashboard
+![image](image/First_page_NHTSA.png)
+![image](image/Second_page_NHTSA.png)
+![image](image/Three_page_NHTSA.png)
 
 ## 📊 Dashboard Features
 🔹 Filters
