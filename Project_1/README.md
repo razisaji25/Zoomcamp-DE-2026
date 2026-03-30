@@ -34,6 +34,8 @@ This project provides an end-to-end data pipeline that:
 
 As a result, users can easily explore crash patterns, identify risk factors, and support data-driven decision-making.
 
+---
+
 ## 📌 Overview
 This project builds an **end-to-end data pipeline** to analyze traffic accident data from the **NHTSA (National Highway Traffic Safety Administration)**.
 
@@ -78,18 +80,18 @@ Project_1
 │   ├── transform.py #Sprak_Partition
 │   └── load.py #Load to Postgresql with DuckDB
 ├── data #data upload in here
-│   ├── 2021 #upload manual
-│       ├── accident.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│       └── vehicle.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│   ├── 2022 #upload manual
-│       ├── accident.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│       └── vehicle.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│   ├── 2023 #upload manual
-│       ├── accident.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│       └── vehicle.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│   ├── Tahun_data #upload manual
-│       ├── accident.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
-│       └── vehicle.csv #ambil dari web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│   ├── 2021 # Create folder and upload
+│       ├── accident.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│       └── vehicle.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│   ├── 2022 #Create folder and upload
+│       ├── accident.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│       └── vehicle.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│   ├── 2023 #Create folder and upload
+│       ├── accident.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│       └── vehicle.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│   ├── <Tahun_data> #Create folder and upload
+│       ├── accident.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
+│       └── vehicle.csv #get data from web "NHTSA https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/"
 │   └── processed #empthy folder for staging partition data from spark
 ├── db #data staging in DuckDB
 ├── docker-compose.yml
@@ -119,12 +121,23 @@ Project_1
 git clone https://github.com/razisaji25/Zoomcamp-DE-2026.git
 cd Project_1
 ```
-### 2. syncronize system repo 
-- add folder data -> [year] -> upload data
+### 2. Prepare Data
+- Place raw data in:
+```bash
+data/<year>/
+example:
+- data/2021/accident.csv
+- data/2021/vehicle.csv
+```
 - running with uv init
 
 ### 3. Run Services (Docker)
+- Using Makefile
+```bash
+make up
+```
 
+- Using Manual command
 ```bash
 docker compose up -d --build
 ```
@@ -134,7 +147,12 @@ Services:
 - Streamlit → http://<YOUR-IP>:8501
 
 ### 4. Run Pipeline (manual test)
+- Using Makefile
+```bash
+make run
+```
 
+- Using Manual command
 ```bash
 docker exec simple-pipeline bash run_pipeline.sh
 ```
@@ -174,6 +192,15 @@ crontab -e
 - Designing a data warehouse with PostgreSQL
 - Creating interactive dashboards with Streamlit
 - Managing containerized workflows using Docker
+
+## 🛠️ Makefile Commands
+```bash
+make up        # start services
+make run       # run pipeline
+make down      # stop services
+make logs      # view logs
+```
+
 
 ### 👨‍💻 Author
 Razis Aji Saputro
